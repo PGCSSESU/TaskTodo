@@ -1,9 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
-
-import { loginUser } from "@/lib/auth";
-import { useAuth } from "@/components/context/AuthContext";
+import { useLoginMutation } from "@/queries/auth.mutation";
 
 import {
   Card,
@@ -22,40 +19,24 @@ export const Route = createFileRoute("/login/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { setToken } = useAuth();
-
-  const loginMutation = useMutation({
-    mutationFn: loginUser,
-    onSuccess: (res) => {
-      localStorage.setItem("token", res.token);
-      setToken(res.token);
-      navigate({ to: "/tasks" });
-    },
-  });
-
+  const loginMutation = useLoginMutation();
 
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: ({ value }) => {
       loginMutation.mutate(value);
     },
   });
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
-      <Card
-        className="w-full max-w-md shadow-xl rounded-2xl bg-white p-6"
-        style={{
-          borderRadius: "6px",
-          boxShadow:
-            "0 0 25px rgba(118, 75, 162, 0.2), 0 0 25px rgba(80, 125, 214, 0.2)",
-        }}
-      >
+      <Card className="w-full max-w-md p-6 bg-white rounded-2xl px-10 py-8
+          shadow-[0_0_35px_rgba(118,75,162,0.25),0_0_35px_rgba(80,125,214,0.25)]">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center text-gray-900">
+          <CardTitle className="text-3xl font-bold text-center">
             Sign In
           </CardTitle>
         </CardHeader>
@@ -67,45 +48,41 @@ function LoginPage() {
           }}
         >
           <CardContent className="space-y-4">
-        
             <div>
-              <Label className="text-gray-700 py-1.5">Email</Label>
-              <form.Field
-                name="email"
-                children={(field) => (
+              <Label className="block text-sm font-medium mb-2">Email</Label>
+              <form.Field name="email">
+                {(field) => (
                   <Input
                     type="email"
-                    className="bg-gray-100 rounded-xl px-4 py-3"
                     value={field.state.value}
+                    className="h-12 rounded-xl bg-gray-100 border-none"
                     onChange={(e) =>
                       field.handleChange(e.target.value)
                     }
                   />
                 )}
-              />
+              </form.Field>
             </div>
 
-         
             <div>
-              <Label className="text-gray-700 py-1.5">Password</Label>
-              <form.Field
-                name="password"
-                children={(field) => (
+              <Label className="block text-sm font-medium mb-2">Password</Label>
+              <form.Field name="password">
+                {(field) => (
                   <Input
                     type="password"
-                    className="bg-gray-100 rounded-xl px-4 py-3"
+                    className="h-12 rounded-xl bg-gray-100 border-none"
                     value={field.state.value}
                     onChange={(e) =>
                       field.handleChange(e.target.value)
                     }
                   />
                 )}
-              />
+              </form.Field>
             </div>
+
             {loginMutation.isError && (
               <p className="text-red-600 text-sm">
-                {(loginMutation.error as any)?.message ||
-                  "Login failed"}
+                {(loginMutation.error as Error).message}
               </p>
             )}
           </CardContent>
@@ -113,19 +90,21 @@ function LoginPage() {
           <CardFooter className="flex flex-col gap-4">
             <Button
               type="submit"
-              className="w-full py-3 rounded-xl mt-5 bg-black text-white hover:bg-gray-900"
               disabled={loginMutation.isPending}
+              className="w-full h-12 rounded-xl mt-4 border-none"
             >
               {loginMutation.isPending
                 ? "Signing In..."
                 : "Sign In"}
             </Button>
 
-            <p className="text-sm text-center text-gray-600 ">
+            <p className="text-sm text-center">
               Don’t have an account?{" "}
               <span
-                className="text-blue-600 cursor-pointer underline"
-                onClick={() => navigate({ to: "/register" })}
+                className="text-blue-600 cursor-pointer"
+                onClick={() =>
+                  navigate({ to: "/register" })
+                }
               >
                 Register
               </span>

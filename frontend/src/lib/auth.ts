@@ -10,9 +10,10 @@ export async function registerUser(data: {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+
   const json = await res.json();
   if (!res.ok) throw new Error(json.msg || "Register failed");
-  return json; 
+  return json;
 }
 
 export async function loginUser(data: {
@@ -24,6 +25,7 @@ export async function loginUser(data: {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+
   const json = await res.json();
   if (!res.ok) throw new Error(json.msg || "Login failed");
   return json;
