@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useForm } from "@tanstack/react-form";
 import { useLoginMutation } from "@/queries/auth.mutation";
+import { useLoginForm } from "@/forms/login.form";
 
 import {
   Card,
@@ -21,20 +21,14 @@ function LoginPage() {
   const navigate = useNavigate();
   const loginMutation = useLoginMutation();
 
-  const form = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: ({ value }) => {
-      loginMutation.mutate(value);
-    },
+  const form = useLoginForm((values) => {
+    loginMutation.mutate(values);
   });
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       <Card className="w-full max-w-md p-6 bg-white rounded-2xl px-10 py-8
-          shadow-[0_0_35px_rgba(118,75,162,0.25),0_0_35px_rgba(80,125,214,0.25)]">
+        shadow-[0_0_35px_rgba(118,75,162,0.25),0_0_35px_rgba(80,125,214,0.25)]">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">
             Sign In
@@ -49,32 +43,32 @@ function LoginPage() {
         >
           <CardContent className="space-y-4">
             <div>
-              <Label className="block text-sm font-medium mb-2">Email</Label>
+              <Label>Email</Label>
               <form.Field name="email">
                 {(field) => (
                   <Input
                     type="email"
                     value={field.state.value}
-                    className="h-12 rounded-xl bg-gray-100 border-none"
                     onChange={(e) =>
                       field.handleChange(e.target.value)
                     }
+                    className="h-12 rounded-xl bg-gray-100 border-none"
                   />
                 )}
               </form.Field>
             </div>
 
             <div>
-              <Label className="block text-sm font-medium mb-2">Password</Label>
+              <Label>Password</Label>
               <form.Field name="password">
                 {(field) => (
                   <Input
                     type="password"
-                    className="h-12 rounded-xl bg-gray-100 border-none"
                     value={field.state.value}
                     onChange={(e) =>
                       field.handleChange(e.target.value)
                     }
+                    className="h-12 rounded-xl bg-gray-100 border-none"
                   />
                 )}
               </form.Field>
@@ -91,7 +85,7 @@ function LoginPage() {
             <Button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full h-12 rounded-xl mt-4 border-none"
+              className="w-full h-12 rounded-xl mt-4"
             >
               {loginMutation.isPending
                 ? "Signing In..."

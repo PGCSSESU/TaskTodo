@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useForm } from "@tanstack/react-form";
 import { useRegisterMutation } from "@/queries/auth.mutation";
+import { useRegisterForm } from "@/forms/register.form";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,15 +13,8 @@ function Register() {
   const navigate = useNavigate();
   const registerMutation = useRegisterMutation();
 
-  const form = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-    onSubmit: ({ value }) => {
-      registerMutation.mutate(value);
-    },
+  const form = useRegisterForm((values) => {
+    registerMutation.mutate(values);
   });
 
   return (
