@@ -105,7 +105,7 @@ function Register() {
           className="w-full h-12 rounded-full bg-black text-white"
         >
           {registerMutation.isPending
-            ? "Creating..."
+            ? "Signing In"
             : "Sign Up"}
         </Button>
 

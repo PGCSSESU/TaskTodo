@@ -16,7 +16,7 @@ export const tasksQueryOptions = (token: string) =>
     queryKey: ["tasks"],
     queryFn: () => fetchTasks(token),
   });
-
+   
 export function useAddTask(token: string) {
   const qc = useQueryClient();
 

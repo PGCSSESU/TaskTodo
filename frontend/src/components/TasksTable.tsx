@@ -58,7 +58,7 @@ export function TasksTable({
                 text-lg transition-all duration-300
                 ${
                   task.completed
-                    ? "line-through text-gray-400"
+                    ? "line-through  text-gray-400"
                     : "text-gray-800 group-hover:text-gray-900"
                 }
               `}

@@ -99,7 +99,7 @@ function LoginPage() {
             </Button>
 
             <p className="text-sm text-center">
-              Don’t have an account?{" "}
+              Don't have an account?{" "}
               <span
                 className="text-blue-600 cursor-pointer"
                 onClick={() =>
