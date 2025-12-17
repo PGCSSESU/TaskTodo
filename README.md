@@ -1,5 +1,19 @@
 # Getting Started
 
+## 📸 Screenshots
+
+### Home Page
+![Home Page](Backend/assets/home.png)
+
+### SignUp
+![Sign Up](Backend/assets/signup.png)
+
+### SignIn
+![Sign In](Backend/assets/signin.png)
+
+### Tasks
+![Tasks](Backend/assets/tasks.png)
+
 To run this application:
 
 ```bash
